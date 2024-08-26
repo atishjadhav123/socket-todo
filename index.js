@@ -13,7 +13,7 @@ app.use(cors({
     credentials: true
 }))
 
-
+app.use("/api/notes", require("./routes/todo.routes"))
 app.use("*", (req, res) => {
     res.status(404).json({ message: "Resource Not Found" })
 })
