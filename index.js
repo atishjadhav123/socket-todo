@@ -1,16 +1,17 @@
 const express = require("express")
 const mongoose = require("mongoose")
 const cors = require("cors")
+const { httpServer, app } = require("./socket/socket")
 require("dotenv").config()
 
-const app = express()
+// const app = express()
 
 app.use(express.json())
 app.use(cors({
     origin: true,
     credentials: true
 }))
-
+app.use(express.static("dist"))
 app.use("/api/notes", require("./routes/todo.routes"))
 app.use("*", (req, res) => {
     res.status(404).json({ message: "Resource Not Found" })
@@ -23,5 +24,5 @@ mongoose.connect(process.env.MONGO_URL)
 
 mongoose.connection.once("open", () => {
     console.log("MONGO CONNECTED")
-    app.listen(process.env.PORT, console.log("SERVER RUNNNING 🏃‍♂️"))
+    httpServer.listen(process.env.PORT, console.log("SERVER RUNNNING 🏃‍♂️"))
 })
