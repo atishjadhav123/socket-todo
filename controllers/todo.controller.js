@@ -5,11 +5,12 @@ const { io } = require("../socket/socket")
 
 exports.getAlltodo = asyncHandler(async (req, res) => {
     const result = await Todo.find()
-    io.emit("todo-create-responce", result)
     res.json({ message: "todo fetch succes", result })
 })
 exports.createTodo = asyncHandler(async (req, res) => {
     await Todo.create(req.body)
+    const result = await Todo.find()
+    io.emit("todo-create-responce", result)
     res.json({ message: "todo cratee succes" })
 })
 exports.updateTodo = asyncHandler(async (req, res) => {
